@@ -47,18 +47,69 @@ def non_max_suppression(prediction, conf_thres=0.25, iou_thres=0.45):
             output.append(pred)  # Placeholder
     return output
 
-def detect(image_path):
-    model = DetectMultiBackend("yolov5m_fracture.pt")  # 替换为您的权重文件名
-    img = cv2.imread(image_path)  # 读取图像
-    img = letterbox(img, new_shape=(640, 640))  # 预处理图像
-    img = img.transpose((2, 0, 1))[None]  # 转换维度
-    img = torch.from_numpy(img).float() / 255.0  # 归一化
-    if img.ndimension() == 3:
-        img = img.unsqueeze(0)
+import cv2
+import numpy as np
 
-    pred = model(img, augment=False)
-    pred = non_max_suppression(pred, conf_thres=0.25, iou_thres=0.45)
-    return pred
+def resize_image(image, target_size=(640, 640)):
+    """Resize image to the target size and return the resized image and original dimensions."""
+    original_shape = image.shape[:2]  # 记录原始图像的形状
+    resized_image = cv2.resize(image, target_size, interpolation=cv2.INTER_LINEAR)  # 调整为640x640
+    return resized_image, original_shape
+
+# 加载模型并进行推理
+def detect(image_path, model_path="C:\\Users\\18301\\Desktop\\骨折检测\\yolov5n_10.14.pt", conf_threshold=0.5, input_size=640):
+    model = DetectMultiBackend(model_path)
+    
+    # 预处理图片
+    img, original_shape = preprocess_image(image_path, input_size)
+
+    # 模型推理
+    pred = model(img)
+
+    # 非极大值抑制（NMS）去除多余的检测框
+    pred = non_max_suppression(pred, conf_threshold)
+
+    # 读取原图大小用于坐标转换
+    original_img = Image.open(image_path)
+    original_size = original_img.size  # 原图的宽高
+    original_width, original_height = original_size  # 解包宽高
+
+    # 坐标转换
+    boxes = []
+    if pred[0] is not None and len(pred[0]):  # 如果有检测结果
+        # 获取输入图像的宽高
+        input_height, input_width = img.shape[2], img.shape[3]
+
+        # 计算宽高比例
+        h_ratio = original_height / input_height
+        w_ratio = original_width / input_width
+
+        # 计算左边距
+        pad_x = (input_width - original_width * min(input_width / original_width, input_height / original_height)) / 2
+        pad_y = (input_height - original_height * min(input_width / original_width, input_height / original_height)) / 2
+
+        # 右移的比例，设置为图像宽度的 33%
+        shift_x = int(original_width * 0)  # 将检测框右移原图宽度的 33%
+
+        for detection in pred[0]:
+            x1, y1, x2, y2 = detection[:4].tolist()
+
+            # 进行坐标转换
+            x1 = int((x1 - pad_x) * w_ratio) + shift_x  # 右移
+            y1 = int(y1 * h_ratio)
+            x2 = int((x2 - pad_x) * w_ratio) + shift_x  # 右移
+            y2 = int(y2 * h_ratio)
+
+            # 限制坐标在图像边界内
+            x1 = min(max(x1, 0), original_width - 1)
+            x2 = min(max(x2, 0), original_width - 1)
+
+            boxes.append([x1, y1, x2, y2])  # 存储为整数类型的坐标
+
+    return boxes, original_img
+
+
+
 
 def main():
     parser = argparse.ArgumentParser(description='Fracture Detection with YOLOv5')
