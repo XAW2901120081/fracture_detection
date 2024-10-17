@@ -1,7 +1,9 @@
 torch>=2.0.0
 torchvision>=0.15.0
 numpy>=1.21.0
-opencv-python>=4.5.0
+# requirements.txt
+opencv-python-headless==4.10.0.84
+streamlit==1.20.0
 matplotlib>=3.4.0
 scipy>=1.7.0
 Pillow>=9.0.0
