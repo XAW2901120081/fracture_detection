@@ -4,6 +4,7 @@
 # Base ------------------------------------------------------------------------
 gitpython
 matplotlib
+opencv-python-headless
 numpy
 opencv-python>=4.7.0
 pillow
