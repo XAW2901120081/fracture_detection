@@ -48,7 +48,7 @@ def non_max_suppression(prediction, conf_thres=0.25, iou_thres=0.45):
     return output
 
 def detect(image_path):
-    model = DetectMultiBackend(yolov5m_fracture.pt)  # 替换为您的权重文件名
+    model = DetectMultiBackend("yolov5m_fracture.pt")  # 替换为您的权重文件名
     img = cv2.imread(image_path)  # 读取图像
     img = letterbox(img, new_shape=(640, 640))  # 预处理图像
     img = img.transpose((2, 0, 1))[None]  # 转换维度
