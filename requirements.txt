@@ -5,7 +5,7 @@
 gitpython
 matplotlib
 numpy
-opencv-python
+opencv-python>=4.7.0
 pillow
 psutil  # system resources
 PyYAML
