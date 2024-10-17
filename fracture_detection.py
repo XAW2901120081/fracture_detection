@@ -10,7 +10,7 @@ import streamlit as st
 from models.export import export_formats
 
 # 设置 YOLOv5 的本地路径
-yolov5_path = "C:\\Users\\18301\\Desktop\\yolov5-master"  # 替换为你克隆的 yolov5 仓库的路径
+yolov5_path = yolov5m_fracture.pt  # 替换为你克隆的 yolov5 仓库的路径
 sys.path.append(yolov5_path)
 
 # 预处理图片
@@ -26,7 +26,7 @@ def preprocess_image(image_path, input_size=640):
     return img
 
 # 加载模型并进行推理
-def detect(image_path, model_path="C:\\Users\\18301\\Desktop\\骨折检测\\yolov5n_10.14.pt", conf_threshold=0.5, input_size=640):
+def detect(image_path, model_path=yolov5m_fracture.pt, conf_threshold=0.5, input_size=640):
     # 使用 YOLOv5 的 DetectMultiBackend 加载模型
     model = DetectMultiBackend(model_path)
 
