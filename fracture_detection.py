@@ -9,7 +9,7 @@ from utils.general import non_max_suppression
 import streamlit as st
 
 # 设置 YOLOv5 的本地路径
-yolov5_path = "C:\\Users\\18301\\Desktop\\骨折检测\\yolov5\\yolov5-master"  # 替换为你克隆的 yolov5 仓库的路径
+yolov5_path = yolov5  # 替换为你克隆的 yolov5 仓库的路径
 sys.path.append(yolov5_path)
 
 # 预处理图片
