@@ -11,4 +11,4 @@ tqdm>=4.64.0
 pyyaml>=5.4.0
 streamlit>=1.9.0
 ultralytics
-cv2
+opencv
