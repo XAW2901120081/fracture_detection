@@ -1,7 +1,6 @@
 torch>=2.4.0
 torchvision>=0.19.0
 numpy>=1.26.4
-# requirements.txt
 opencv-python-headless>=4.10.0.84
 streamlit==1.38.0
 matplotlib>=3.9.2
@@ -11,4 +10,4 @@ tqdm>=4.64.0
 pyyaml>=5.4.0
 streamlit>=1.9.0
 ultralytics
-opencv
+opencv-python
