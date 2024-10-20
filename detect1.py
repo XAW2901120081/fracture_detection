@@ -57,7 +57,7 @@ def resize_image(image, target_size=(640, 640)):
     return resized_image, original_shape
 
 # 加载模型并进行推理
-def detect(image_path, model_path=yolov5n_10.14.pt, conf_threshold=0.5, input_size=640):
+def detect(image_path, model_path='yolov5n_10.14.pt', conf_threshold=0.5, input_size=640):
     model = DetectMultiBackend(model_path)
     
     # 预处理图片
