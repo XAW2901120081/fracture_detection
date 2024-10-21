@@ -1,7 +1,7 @@
 torch
 torchvision
 numpy
-opencv-python
+opencv-python-headless
 streamlit
 matplotlib
 scipy
